@@ -520,6 +520,15 @@ main {
     100% { transform: translateX(0); }
 }
 
+.logo {
+                font-size: 40px;
+            }
+            .enlaces-nav {
+                margin-bottom: -19px;
+            }
+            .boton-sesion {
+                font-size: 15px;
+            }
 
 
 
@@ -530,7 +539,115 @@ main {
   </style>
 
   <!-- Encabezado -->
-  <?php include("./INCLUDE/HEADER.PHP")?>
+  <header>
+    <div class="logo">LIFER</div>
+
+    <!-- Botones de Iniciar Sesión y Registrarse -->
+    <div class="botones-sesion">
+        <a href="#" class="boton-sesion" onclick="openModal()">Iniciar Sesión</a>
+        <a href="#registrarse" class="boton-sesion">Registrarse</a>
+    </div>
+
+    <div class="enlaces-nav">
+        <div class="desplegable">
+            <a href="./INDEX.PHP">Inicio</a>
+            <ul class="submenu">
+                <li><a href="#novedades">Novedades</a></li>
+                <li><a href="#populares">Más Populares</a></li>
+            </ul>
+        </div>
+        <div class="desplegable">
+            <a href="#">Hombre</a>
+            <ul class="submenu">
+                <li><a href="./ROPA HOMBRE/CAMISETAS_H.PHP">Camisetas</a></li>
+                <li><a href="./ROPA HOMBRE/CHAQUETAS_H.PHP">Chaquetas</a></li>
+                <li><a href="./ROPA HOMBRE/JEANS_H.PHP">Pantalones</a></li>
+                <li><a href="./ROPA HOMBRE/SHORTS_H.PHP">Shorts</a></li>
+                <li><a href="./ROPA HOMBRE/BLAZER_H.PHP">Gaban Y Blazer</a></li>
+                <li><a href="./ROPA HOMBRE/BUZOS_H.PHP">Buzos</a></li>
+                <li><a href="./ROPA HOMBRE/CAMISAS_H.PHP">Camisas</a></li>
+                <li><a href="./ROPA HOMBRE/ROPA_INTERIOR_H.PHP">Ropa Interior</a></li>
+
+
+            </ul>
+        </div>
+        <div class="desplegable">
+            <a href="#categorias">Mujer</a>
+            <ul class="submenu">
+            <li><a href="./ROPA MUJER/CAMISETAS_M.PHP">Camisetas</a></li>
+            <li><a href="./ROPA MUJER/CHAQUETAS_M.PHP">Chaquetas</a></li>
+            <li><a href="./ROPA MUJER/JEANS_M.PHP">Pantalones</a></li>
+            <li><a href="./ROPA MUJER/BLAZER_M.PHP">Blazer y Gaban</a></li>
+            <li><a href="./ROPA MUJER/CAMISAS_M.PHP">Camisas</a></li>
+            <li><a href="./ROPA MUJER/ROPA_INT_M.PHP">Ropa Interior</a></li>
+                <li><a href="./ROPA MUJER/VESTIDOS_M.PHP">Vestidos</a></li>
+                <li><a href="./ROPA MUJER/BLUSAS_M.PHP">Blusas</a></li>
+                <li><a href="./ROPA MUJER/BUZOS_M.PHP">Buzos</a></li>
+
+            </ul>
+        </div>
+        <div class="desplegable">
+            <a href="#contacto">Accesorios</a>
+            <ul class="submenu">
+                <li><a href="./ACCESORIOS/ACCESORIOS.PHP">Gafas</a></li>
+                <li><a href="./ACCESORIOS/CINTURON.PHP">Cinturón</a></li>
+                <li><a href="./ACCESORIOS/PAÑUELOS.PHP">Pañuelos</a></li>
+                <li><a href="./ACCESORIOS/BUFANDAS.PHP">Bufandas</a></li>
+                <li><a href="./ACCESORIOS/GUANTES.PHP">Guantes</a></li>
+                <li><a href="./ACCESORIOS/CORBATAS.PHP">Corbatas</a></li>
+                <li><a href="./ACCESORIOS/ARETES.PHP">Aretes</a></li>
+                <li><a href="./ACCESORIOS/ANILLOS.PHP">Anillos</a></li>
+                <li><a href="./ACCESORIOS/COLLARES.PHP">Collares</a></li>
+
+
+            </ul>
+        </div>
+        <div class="desplegable">
+            <a href="#accesorios">Contacto</a>
+            <ul class="submenu">
+                <li><a href="#ayuda">Ayuda</a></li>
+                <li><a href="#ubicacion">Ubicación</a></li>
+                <li><a href="#email">Email</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br><br>
+
+<!-- Imagen bajo el menu -->
+<div class="imagen-decorativa"></div>
+</header>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Iniciar Sesión</h2>
+    <form method="POST" action="../Proyecto_Tienda_Ropa/LOGIN/LOGUIN.PHP">
+        <input type="email" name="email" placeholder="Correo electrónico" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+</div>
+
+<script>
+// Función para abrir el modal
+function openModal() {
+    document.getElementById('modal').style.display = 'flex';
+}
+
+// Función para cerrar el modal
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+// Cierra el modal al hacer clic fuera de él
+window.onclick = function(event) {
+    if (event.target == document.getElementById('modal')) {
+        closeModal();
+    }
+}
+</script>
 
   <!-- Contenido principal -->
   <br><br><br>
@@ -585,21 +702,21 @@ main {
       <div class="carrusel-promocion">
         <div class="contenedor-imagenes">
           <div class="slide">
-            <img src="ropa2.png" width="20px" alt="Promoción 1">
+            <img src="./IMAGENES/ropa2.png" width="20px" alt="Promoción 1">
             <div class="info-slide">
               <span class="descuento">-50%</span>
               <h3>Colección Verano</h3>
             </div>
           </div>
           <div class="slide">
-            <img src="ropa1.png" width="20px"alt="Promoción 2">
+            <img src="./IMAGENES/ropa1.png" width="20px"alt="Promoción 2">
             <div class="info-slide">
               <span class="descuento">-40%</span>
               <h3>Accesorios</h3>
             </div>
           </div>
           <div class="slide">
-            <img src="ropa3.png" width="20px"alt="Promoción 3">
+            <img src="./IMAGENES/ropa3.png" width="20px"alt="Promoción 3">
             <div class="info-slide">
               <span class="descuento">-30%</span>
               <h3>Nueva Temporada</h3>

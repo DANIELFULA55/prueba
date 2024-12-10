@@ -1,28 +1,60 @@
+<?php
+include('../CONEXION/CONEXION_BASE_DE_DATOS.PHP');
+
+if (!$conexion) {
+    die("Error al conectar con la base de datos: " . mysqli_connect_error());
+}
+
+// Paginación
+$SQL_REGISTROS = mysqli_query($conexion, "SELECT COUNT(*) AS TOTAL FROM prenda WHERE ID_Tipo_prenda IN (SELECT ID_Tipo_prenda FROM tipo_prenda WHERE Nombre = 'Camisetas')");
+$RESULT_REGISTROS = mysqli_fetch_array($SQL_REGISTROS);
+$TOTAL = $RESULT_REGISTROS['TOTAL'];
+
+$POR_PAGINA = 15;
+$PAGINA = empty($_GET['PAGINA']) ? 1 : $_GET['PAGINA'];
+$DESDE = ($PAGINA - 1) * $POR_PAGINA;
+$TOTAL_PAGINAS = ceil($TOTAL / $POR_PAGINA);
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMISETAS HOMBRE</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="../INCLUDE - ESTILOS/FOOTER_ESTILOS.CSS" rel="stylesheet">
+    <link href="../INCLUDE - ESTILOS/HEADER_ESTILOS.CSS" rel="stylesheet">
+    <link href="../ESTILOS/index.css" rel="stylesheet">
+    <link href="../ESTILOS/menu.css" rel="stylesheet">
+    <link href="../ESTILOS/categorias.css" rel="stylesheet">
+    <link href="../ESTILOS/ico_perfil.css" rel="stylesheet">
+    <link href="../ESTILOS/responsiva.css" rel="stylesheet">
+    <link href="../ESTILOS/menu_de los demas.css" rel="stylesheet">
+    <link href="../ESTILOS/responsivo_articulos.css" rel="stylesheet">
+    <link href="../ESTILOS/SEGUNDOS _ESTILOS_IMPORTANTES.CSS" rel="stylesheet">
+    <link href="../ESTILOS/iniciar_sesion.css" rel="stylesheet">
+    <link href="../ESTILOS/estilos del loguin.css" rel="stylesheet">
+    <link href="../CSS_BOTONES/agregar_carrito.css" rel="stylesheet">
+    <link href="../estilos_cliente/estilos menu.css" rel="stylesheet">
+    <link href="../cliente.css" rel="stylesheet">
 
-  <!-- Enlaces de estilo -->
-  <link href="./INCLUDE - ESTILOS/HEADER_ESTILOS.CSS" rel="stylesheet">
-  <link href="./INCLUDE - ESTILOS/FOOTER_ESTILOS.CSS" rel="stylesheet">
-  <link href="./ESTILOS/index.css" rel="stylesheet">
-  <link href="./ESTILOS/menu.css" rel="stylesheet">
-  <link href="./ESTILOS/Menu_hamburguesa.css" rel="stylesheet">
-  <link href="./ESTILOS/iniciar_sesion.css" rel="stylesheet">
-  <link href="./ESTILOS/carrusel_responsivo.css" rel="stylesheet">
-  <link href="./ESTILOS/estilos del loguin.css" rel="stylesheet">
-  <link href="./ESTILOS/footer.css" rel="stylesheet">
-
-
+    
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegance - Tienda de Ropa Formal</title>
+    <style>
+      
+    </style>
 </head>
 <body>
 
-  <style>
- /* Restablecimiento de estilos */
- * {
+<style>
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -946,271 +978,433 @@ nav {
 
 
 
+    body {
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f0f0f0, #d1d1d1); /* Fondo suave y elegante */
+    background-size: cover;
+}
+
+header {
+    background: linear-gradient(135deg, #1a1a1a, #333333); /* Fondo con un toque moderno */
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border-bottom: 5px solid #b2976b;
+}
+
+header:hover {
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    font-size: 2.5em;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    color: #f2f2f2;
+}
+
+nav {
+    display: flex;
+    gap: 40px;
+}
+
+nav a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: color 0.3s ease, border-bottom 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+nav a:hover {
+    color: #ffffff;
+    background-color: #b2976b;
+    border-bottom: 2px solid #ffffff;
+    transform: scale(1.1);
+}
+
+.desplegable {
+    position: relative;
+}
+
+.desplegable > a {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.desplegable > a:hover {
+    color: #ffffff;
+}
+
+.desplegable-icono {
+    margin-left: 6px;
+    font-size: 1.2em;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.desplegable:hover .desplegable-icono {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #444444;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+    min-width: 240px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.submenu li {
+    list-style: none;
+}
+
+.submenu li a {
+    display: block;
+    padding: 12px 20px;
+    color: #dcdcdc;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.submenu li a:hover {
+    background-color: #555555;
+    color: #ffffff;
+    transform: translateX(10px);
+}
+
+.desplegable:hover .submenu {
+    display: block;
+}
+
+.menu-acciones {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.icono {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icono:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.icono i {
+    font-size: 1.7em;
+}
+
+/* Estilo para sección de colecciones */
+.coleccion {
+    color: #ffffff;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 20px;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+.coleccion a {
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 12px 24px;
+    background-color: #333333;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.coleccion a:hover {
+    background-color: #b2976b;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+/* Diseño responsive */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .submenu {
+        top: 40px;
+    }
+
+    .coleccion {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+
+  /* Estilos adicionales */
+  .catalogo-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.producto-card {
+    width: 250px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.producto-info {
+    margin-top: 10px;
+}
+
+.btn-agregar {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.btn-agregar:hover {
+    background-color: #218838;
+}
+
+/* Ventana emergente */
+.modal-sesion {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-sesion.activo {
+    display: flex;
+}
+
+.contenido-sesion {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cerrar-sesion {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.btn-cerrar-sesion:hover {
+    background-color: #c82333;
+}
+
+
+
+
+</style>
 
 
 
 
 
-  </style>
 
-  <!-- Encabezado -->
-  <header>
-    <div class="logo">LIFER</div>
+    <header>
+        <!-- Logo -->
+        <a href="#" class="logo">Elegance</a>
 
-    <!-- Botones de Iniciar Sesión y Registrarse -->
-    <div class="botones-sesion">
-        <a href="#" class="boton-sesion" onclick="openModal()">Iniciar Sesión</a>
-        <a href="#registrarse" class="boton-sesion">Registrarse</a>
+        <!-- Menú de Navegación -->
+        <nav>
+            <a href="../INDEX.PHP">Inicio</a>
+            <div class="desplegable">
+                <a href="#">
+                     Hombre
+                    <span class="desplegable-icono">&#9662;</span>
+                </a>
+                <ul class="submenu">
+                <li><a href="../ROPA HOMBRE/CAMISETAS_H.PHP">Camisetas</a></li>
+                    <li><a href="../ROPA HOMBRE/CHAQUETAS_H.PHP">Chaquetas</a></li>
+                    <li><a href="../ROPA HOMBRE/JEANS_H.PHP">Pantalones</a></li>
+                    <li><a href="../ROPA HOMBRE/SHORTS_H.PHP">Shorts</a></li>
+                    <li><a href="../ROPA HOMBRE/BLAZER_H.PHP">Gaban Y Blazer</a></li>
+                    <li><a href="../ROPA HOMBRE/BUZOS_H.PHP">Buzos</a></li>
+                    <li><a href="../ROPA HOMBRE/CAMISAS_H.PHP">Camisas</a></li>
+                    <li><a href="../ROPA HOMBRE/ROPA_INTERIOR_H.PHP">Ropa Interior</a></li>
+                </ul>
+            </div>
+            <div class="desplegable">
+                    <a href="#categorias">Mujer</a>
+                    <ul class="submenu">
+                    <li><a href="../ROPA MUJER/CAMISETAS_M.PHP">Camisetas</a></li>
+                <li><a href="../ROPA MUJER/CHAQUETAS_M.PHP">Chaquetas</a></li>
+                <li><a href="../ROPA MUJER/JEANS_M.PHP">Pantalones</a></li>
+                <li><a href="../ROPA MUJER/BLAZER_M.PHP">Blazer y Gaban</a></li>
+                <li><a href="../ROPA MUJER/CAMISAS_M.PHP">Camisas</a></li>
+                <li><a href="../ROPA MUJER/ROPA_INT_M.PHP">Ropa Interior</a></li>
+                    <li><a href="../ROPA MUJER/VESTIDOS_M.PHP">Vestidos</a></li>
+                    <li><a href="../ROPA MUJER/BLUSAS_M.PHP">Blusas</a></li>
+                    <li><a href="../ROPA MUJER/BUZOS_M.PHP">Buzos</a></li>
+
+                    </ul>
+                </div>
+                <div class="desplegable">
+                    <a href="#contacto">Accesorios</a>
+
+                    <ul class="submenu">
+                    <li><a href="../ACCESORIOS/ACCESORIOS.PHP">Gafas</a></li>
+                    <li><a href="../ACCESORIOS/CINTURON.PHP">Cinturón</a></li>
+                    <li><a href="../ACCESORIOS/PAÑUELOS.PHP">Pañuelos</a></li>
+                    <li><a href="../ACCESORIOS/BUFANDAS.PHP">Bufandas</a></li>
+                    <li><a href="../ACCESORIOS/GUANTES.PHP">Guantes</a></li>
+                    <li><a href="../ACCESORIOS/CORBATAS.PHP">Corbatas</a></li>
+                    <li><a href="../ACCESORIOS/ARETES.PHP">Aretes</a></li>
+                    <li><a href="../ACCESORIOS/ANILLOS.PHP">Anillos</a></li>
+                    <li><a href="../ACCESORIOS/COLLARES.PHP">Collares</a></li>
+                    </ul>
+                </div>
+                <div class="contacto">
+                    <a href="#accesorios">Contacto</a>
+
+                    <ul class="submenu">
+                        <li><a href="#ayuda">Ayuda</a></li>
+                        <li><a href="#ubicacion">Ubicación</a></li>
+                        <li><a href="#email">Email</a></li>
+        </nav>
+
+        <!-- Iconos de acciones -->
+        <div class="menu-acciones">
+            <a href="../CARRITO.PHP" class="icono">
+                <i>&#128722;</i> Carrito
+            </a>
+            <a href="../FAVORITOS.PHP" class="icono">
+                <i>&#9825;</i> Favoritos
+            </a>
+            
+        </div>
+    </header>
+
+   
+
+    <br><br><br>
+
+
+    <div class="catalogo-container">
+<?php
+$CONSULTA = "SELECT * FROM prenda WHERE ID_Tipo_prenda IN (SELECT ID_Tipo_prenda FROM tipo_prenda WHERE Nombre = 'Camisetas Hombre') LIMIT $DESDE, $POR_PAGINA";
+$EJECUTAR = mysqli_query($conexion, $CONSULTA);
+
+while ($FILA = mysqli_fetch_assoc($EJECUTAR)) {
+    $NOMBRE = $FILA['Nombre'];
+    $COSTO = $FILA['Costo'];
+    $IMAGEN = "../IMAGENES/" . $FILA['Foto'];
+    $COLOR = $FILA['Color'];
+    $TALLA = $FILA['Talla'];
+    $STOCK = $FILA['Stock'] > 0 ? "Disponible" : "Agotado";
+?>
+    <div class="producto-card">
+        <img src="<?php echo $IMAGEN; ?>" alt="<?php echo $NOMBRE; ?>" class="producto-imagen">
+        <div class="producto-info">
+            <h3 class="producto-nombre"><?php echo $NOMBRE; ?></h3>
+            <p><strong>Color:</strong> <?php echo $COLOR; ?></p>
+            <p><strong>Talla:</strong> <?php echo $TALLA; ?></p>
+            <p><strong>Precio:</strong> $<?php echo number_format($COSTO, 2); ?></p>
+            <p><strong>Stock:</strong> <?php echo $STOCK; ?></p>
+            <button class="btn-agregar" onclick="mostrarVentana()">Agregar al carrito</button>
+        </div>
     </div>
-
-    <div class="enlaces-nav">
-        <div class="desplegable">
-            <a href="./INDEX.PHP">Inicio</a>
-            <ul class="submenu">
-                <li><a href="#novedades">Novedades</a></li>
-                <li><a href="#populares">Más Populares</a></li>
-            </ul>
-        </div>
-        <div class="desplegable">
-            <a href="#">Hombre</a>
-            <ul class="submenu">
-                <li><a href="CAMISETAS_H.PHP">Camisetas</a></li>
-                <li><a href="CHAQUETAS_H.PHP">Chaquetas</a></li>
-                <li><a href="JEANS_H.PHP">Pantalones</a></li>
-                <li><a href="SHORTS_H.PHP">Shorts</a></li>
-                <li><a href="BLAZER_H.PHP">Gaban Y Blazer</a></li>
-                <li><a href="BUZOS_H.PHP">Buzos</a></li>
-                <li><a href="CAMISAS_H.PHP">Camisas</a></li>
-                <li><a href="/ROPA_INTERIOR_H.PHP">Ropa Interior</a></li>
-
-
-            </ul>
-        </div>
-        <div class="desplegable">
-            <a href="#categorias">Mujer</a>
-            <ul class="submenu">
-            <li><a href="CAMISETAS_M.PHP">Camisetas</a></li>
-            <li><a href="CHAQUETAS_M.PHP">Chaquetas</a></li>
-            <li><a href="JEANS_M.PHP">Pantalones</a></li>
-            <li><a href="BLAZER_M.PHP">Blazer y Gaban</a></li>
-            <li><a href="CAMISAS_M.PHP">Camisas</a></li>
-            <li><a href="/ROPA_INT_M.PHP">Ropa Interior</a></li>
-                <li><a href="VESTIDOS_M.PHP">Vestidos</a></li>
-                <li><a href="BLUSAS_M.PHP">Blusas</a></li>
-                <li><a href="BUZOS_M.PHP">Buzos</a></li>
-
-            </ul>
-        </div>
-        <div class="desplegable">
-            <a href="#contacto">Accesorios</a>
-            <ul class="submenu">
-                <li><a href="ACCESORIOS.PHP">Gafas</a></li>
-                <li><a href="CINTURON.PHP">Cinturón</a></li>
-                <li><a href="PAÑUELOS.PHP">Pañuelos</a></li>
-                <li><a href="BUFANDAS.PHP">Bufandas</a></li>
-                <li><a href="GUANTES.PHP">Guantes</a></li>
-                <li><a href="CORBATAS.PHP">Corbatas</a></li>
-                <li><a href="ARETES.PHP">Aretes</a></li>
-                <li><a href="ANILLOS.PHP">Anillos</a></li>
-                <li><a href="COLLARES.PHP">Collares</a></li>
-
-
-            </ul>
-        </div>
-        <div class="desplegable">
-            <a href="#accesorios">Contacto</a>
-            <ul class="submenu">
-                <li><a href="#ayuda">Ayuda</a></li>
-                <li><a href="#ubicacion">Ubicación</a></li>
-                <li><a href="#email">Email</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<br><br>
-
-<!-- Imagen bajo el menu -->
-<div class="imagen-decorativa"></div>
-</header>
-
-<div class="modal" id="modal">
-<div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h2>Iniciar Sesión</h2>
-    <form method="POST" action="../Proyecto_Tienda_Ropa/LOGIN/LOGUIN.PHP">
-        <input type="email" name="email" placeholder="Correo electrónico" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <button type="submit">Entrar</button>
-    </form>
+<?php } ?>
 </div>
+
+<!-- Ventana emergente -->
+<div class="modal-sesion" id="modalSesion">
+    <div class="contenido-sesion">
+        <p>Debes iniciar sesión para acceder y poder comprar con nosotros.</p>
+        <button class="btn-cerrar-sesion" onclick="cerrarVentana()">Cerrar</button>
+    </div>
 </div>
 
 <script>
-// Función para abrir el modal
-function openModal() {
-    document.getElementById('modal').style.display = 'flex';
-}
-
-// Función para cerrar el modal
-function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-}
-
-// Cierra el modal al hacer clic fuera de él
-window.onclick = function(event) {
-    if (event.target == document.getElementById('modal')) {
-        closeModal();
+    function mostrarVentana() {
+        document.getElementById('modalSesion').classList.add('activo');
     }
-}
+
+    function cerrarVentana() {
+        document.getElementById('modalSesion').classList.remove('activo');
+    }
 </script>
 
-  <!-- Contenido principal -->
-  <br><br><br>
-  <section class="seccion-promocion">
-    <div class="contenedor-principal">
-      <div class="contenido-promocion">
-        <div class="cabecera-promocion">
-          <span class="etiqueta-destacada">¡Oferta Exclusiva!</span>
-          <span class="etiqueta-tiempo-limitado">Tiempo Limitado</span>
-        </div>
-        
-        <h2 class="titulo-promocion">Rebajas de Temporada</h2>
-        <p class="descripcion-promocion">Aprovecha descuentos de hasta <strong>50%</strong> en nuestra colección de verano. Actualiza tu estilo con precios irresistibles y prepárate para destacar esta temporada.</p>
-        
-        <div class="caracteristicas-promocion">
-          <div class="caracteristica">
-            <span class="icono">🚚</span>
-            <p>Envío Gratis</p>
-            <span class="detalle">En compras mayores a $999</span>
-          </div>
-          <div class="caracteristica">
-            <span class="icono">💳</span>
-            <p>Variedad de tarjetas</p>
-            <span class="detalle">Con Descuentos</span>
-          </div>
-          <div class="caracteristica">
-            <span class="icono">↩️</span>
-            <p>Devolución Gratuita</p>
-            <span class="detalle">Hasta 30 días después</span>
-          </div>
-        </div>
+<!-- Footer -->
+<?php include('../INCLUDE/FOOTER.PHP'); ?>
 
-        <div class="etiquetas-productos">
-          <span class="etiqueta">Camisetas</span>
-          <span class="etiqueta">Vestidos</span>
-          <span class="etiqueta">Jeans</span>
-          <span class="etiqueta">Accesorios</span>
-        </div>
-
-        <div class="botones-promocion">
-          <a href="./PAGINAS/CATEGORIAS.PHP" class="boton-principal">
-            <span class="icono-boton">🛍️</span>
-            Explorar Colección
-          </a>
-          <a href="./PAGINAS/OFERFAS.PHP" class="boton-secundario">
-            <span class="icono-boton">🏷️</span>
-            Ver Ofertas
-          </a>
-        </div>
-      </div>
-
-      <div class="carrusel-promocion">
-        <div class="contenedor-imagenes">
-          <div class="slide">
-            <img src="ropa2.png" width="20px" alt="Promoción 1">
-            <div class="info-slide">
-              <span class="descuento">-50%</span>
-              <h3>Colección Verano</h3>
-            </div>
-          </div>
-          <div class="slide">
-            <img src="ropa1.png" width="20px"alt="Promoción 2">
-            <div class="info-slide">
-              <span class="descuento">-40%</span>
-              <h3>Accesorios</h3>
-            </div>
-          </div>
-          <div class="slide">
-            <img src="ropa3.png" width="20px"alt="Promoción 3">
-            <div class="info-slide">
-              <span class="descuento">-30%</span>
-              <h3>Nueva Temporada</h3>
-            </div>
-          </div>
-        </div>
-        <div class="controles-carrusel">
-          <button class="control-carrusel activo"></button>
-          <button class="control-carrusel"></button>
-          <button class="control-carrusel"></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="beneficios-compra">
-      <h3 class="titulo-beneficios">¿Por qué comprar con nosotros?</h3>
-      <div class="contenedor-beneficios">
-        <div class="beneficio">
-          <span class="icono-beneficio">⭐</span>
-          <h4>Calidad Garantizada</h4>
-          <p>Productos seleccionados con los más altos estándares</p>
-        </div>
-        <div class="beneficio">
-          <span class="icono-beneficio">📦</span>
-          <h4>Empaque Sustentable</h4>
-          <p>Comprometidos con el medio ambiente</p>
-        </div>
-        <div class="beneficio">
-          <span class="icono-beneficio">📞</span>
-          <h4>Soporte </h4>
-          <p>Estamos para ayudarte en todo momento</p>
-        </div>
-        <div class="beneficio">
-          <span class="icono-beneficio">🔒</span>
-          <h4>Compra Segura</h4>
-          <p>Transacciones protegidas y seguras</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pie de página -->
-  <?php include("./INCLUDE/FOOTER.PHP")?>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('menuNav').classList.toggle('active');
-    }
-
-
-  
-  const slides = document.querySelectorAll('.slide');
-  const controls = document.querySelectorAll('.control-carrusel');
-  let currentIndex = 0;
-
-  function updateCarousel(index) {
-    const totalSlides = slides.length;
-    
-    if (index >= totalSlides) {
-      currentIndex = 0;
-    } else if (index < 0) {
-      currentIndex = totalSlides - 1;
-    } else {
-      currentIndex = index;
-    }
-
-    document.querySelector('.contenedor-imagenes').style.transform = `translateX(-${currentIndex * 100}%)`;
-    controls.forEach(control => control.classList.remove('activo'));
-    controls[currentIndex].classList.add('activo');
-  }
-
-  controls.forEach((control, index) => {
-    control.addEventListener('click', () => updateCarousel(index));
-  });
-
-  setInterval(() => {
-    updateCarousel(currentIndex + 1);
-  }, 5000);
-
-  </script>
 </body>
 </html>
